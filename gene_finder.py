@@ -152,8 +152,8 @@ def find_all_ORFs(dna):
     for i in range(len(total2)):
         sub = False
         string1 = total2[i]
-        for p in range(len(total)):
-            string2 = total2[p]
+        for p in range(len(total2)):
+            string2 = total2[p]   #GETTING ERROR HERE! List index out of range
             if string1 in string2 and string1 != string2:
                 sub = True
         if sub == False:
@@ -275,20 +275,25 @@ def gene_finder(dna):
     # TODO: implement this
     # This function should call both the AA function and longest ORF function, I believe I should use the output from 
     #the longest ORF function into the amino acid function
-    threshold = longest_ORF_noncoding(dna, 1500):
+    threshold = longest_ORF_noncoding(dna, 1500)
     larger_than_threshold = []
     aminolist = []
     findinglong = find_all_ORFs_both_strands(dna)
-    if len(findinglong) > threshold:
-        larger_than_threshold.append(findinglong)
+    print(findinglong)
+    for infind in findinglong:
+        if len(infind) >= threshold:
+            larger_than_threshold.append(findinglong)
     for i in larger_than_threshold:
-        aminoA = coding_strand_to_AA(i)
-        aminolist.append(aminoA)
+        for p in i:
+        #here is the problem: right now it makes a list of a list, so I think I can put a bandaid on the problem by calling 
+        #it twice with i and p, but I need to investigate a better way to fix this 
+            aminoA = coding_strand_to_AA(p)
+            aminolist.append(aminoA)
     return aminolist
 
-    #THE ABOVE FUNCTION I NOT TESTED. To do: test 'longestORF_noncoding', then test genefinder.
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.run_docstring_examples(coding_strand_to_AA, globals(), verbose =True)
+dna = load_seq("./data/X73525.fa")
+answer = gene_finder(dna)
+print(answer)
+#if __name__ == "__main__":
+ #   import doctest
+  #  doctest.run_docstring_examples(find_all_ORFs, globals(), verbose =True)
