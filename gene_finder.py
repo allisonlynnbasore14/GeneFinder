@@ -279,16 +279,14 @@ def gene_finder(dna):
     larger_than_threshold = []
     aminolist = []
     findinglong = find_all_ORFs_both_strands(dna)
-    print(findinglong)
     for infind in findinglong:
         if len(infind) >= threshold:
-            larger_than_threshold.append(findinglong)
+            larger_than_threshold.append(infind)
     for i in larger_than_threshold:
-        for p in i:
         #here is the problem: right now it makes a list of a list, so I think I can put a bandaid on the problem by calling 
         #it twice with i and p, but I need to investigate a better way to fix this 
-            aminoA = coding_strand_to_AA(p)
-            aminolist.append(aminoA)
+        aminoA = coding_strand_to_AA(i)
+        aminolist.append(aminoA)
     return aminolist
 
 dna = load_seq("./data/X73525.fa")
